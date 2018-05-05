@@ -3,22 +3,38 @@ const http = require("http");
 const express = require("express");
 const expressHandlebars = require("express-handlebars");
 
-const bootstrapPackage = require("bootstrap/package.json");
-const bootstrapCss = require.resolve("bootstrap/" + bootstrapPackage.style);
-
 const app = express();
 
 const config = {
   prod: app.get("env") === "production",
-  port: process.env.PORT || 1987
+  port: process.env.PORT || 1987,
+  trelloApiKey: process.env.TRELLO_API_KEY
+};
+
+app.locals = {
+  trelloApiKey: config.trelloApiKey
 };
 
 app.set("trust proxy", 1);
 app.engine("handlebars", expressHandlebars({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-app.get("/bootstrap.min.css", (req, res) => res.sendFile(bootstrapCss));
+// Static Assets
+Object.entries({
+  "bootstrap.min.css": "bootstrap/dist/css/",
+  "bootstrap.min.css.map": "bootstrap/dist/css/",
+  "jquery.slim.min.js": "jquery/dist/",
+  "jquery.slim.min.map": "jquery/dist/"
+}).map(([file, source]) => {
+  const fullSource = require.resolve(source + file);
+  app.get("/" + file, (req, res) => res.sendFile(fullSource));
+});
 app.use("/", express.static("public"));
+
+// The app code
+app.get("/", (req, res) => {
+  res.render("main");
+});
 
 app.use((req, res) => {
   res.status(404);
