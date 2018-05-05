@@ -1,0 +1,24 @@
+{
+  "name": "epic-trello",
+  "version": "1.0.0",
+  "description": "A attempt to give an epic view for trello",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glenjamin/epic-trello.git"
+  },
+  "author": "Glen Mailer <glen@stainlessed.co.uk>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/glenjamin/epic-trello/issues"
+  },
+  "homepage": "https://github.com/glenjamin/epic-trello#readme",
+  "dependencies": {
+    "bootstrap": "^4.1.1",
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "prettier": "^1.12.1"
+  }
+}
