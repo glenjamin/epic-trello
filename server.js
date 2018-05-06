@@ -23,8 +23,8 @@ app.set("view engine", "handlebars");
 Object.entries({
   "bootstrap.min.css": "bootstrap/dist/css/",
   "bootstrap.min.css.map": "bootstrap/dist/css/",
-  "jquery.slim.min.js": "jquery/dist/",
-  "jquery.slim.min.map": "jquery/dist/"
+  "jquery.min.js": "jquery/dist/",
+  "jquery.min.map": "jquery/dist/"
 }).map(([file, source]) => {
   const fullSource = require.resolve(source + file);
   app.get("/" + file, (req, res) => res.sendFile(fullSource));

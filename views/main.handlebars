@@ -1,0 +1,44 @@
+<div class="js-app">
+  <div class="d-none js-section js-auth">
+    <button class="btn btn-success js-btn">
+      Connect To Trello
+    </button>
+  </div>
+
+  <div class="d-none js-section js-pick-board">
+    <p class="lead">
+      Select your epic board from the dropdown.
+      Card attachments will be shown below each epic alongside the list
+      they're currently in.
+    </p>
+    <p class="js-loading">
+      Loading...
+    </p>
+    <select class="d-none custom-select custom-select-lg js-select">
+      <option selected>Select Board...</option>
+    </select>
+  </div>
+
+  <div class="d-none js-section js-epics">
+    <p class="js-loading">
+      Loading ...
+    </p>
+    <button class="btn btn-secondary d-none js-update">Update</button>
+    <div class="d-none js-epic-template">
+      <h2 class="js-epic-name"></h2>
+      <p class="js-cards-loading">Loading...</p>
+      <p class="js-epic-counter"></p>
+      <table class="table">
+        <tr>
+          <th>Card</th>
+          <th>List</th>
+        </tr>
+        <tr class="d-none js-card-template">
+          <td class="js-card-name"></td>
+          <td class="js-card-list"></td>
+        </tr>
+      </table>
+    </div>
+    <div class="js-epic-list"></div>
+  </div>
+</div>
