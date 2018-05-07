@@ -100,7 +100,11 @@ function expandEpic($epic, card) {
         new Promise((resolve, reject) => {
           Trello.cards.get(
             cardId,
-            { list: true, fields: ["url", "name"] },
+            {
+              fields: ["url", "name", "pos", "closed"],
+              list: true,
+              list_fields: ["name", "pos"]
+            },
             resolve,
             reject
           );
@@ -114,6 +118,8 @@ function expandEpic($epic, card) {
   }
 
   function gotTasks(cards) {
+    cards.sort(cardSort);
+
     cards.forEach(card => {
       const $card = $cardTemplate.clone().removeClass("d-none");
       $card
@@ -125,8 +131,15 @@ function expandEpic($epic, card) {
     $loading.addClass("d-none");
   }
 
+  function cardSort(a, b) {
+    if (a.list.id === b.list.id) {
+      return a.pos - b.pos;
+    }
+    return b.list.pos - a.list.pos;
+  }
+
   function attachmentToCardId(at) {
-    const m = /^https:\/\/trello\.com\/c\/([^/]+)\//.exec(at.url);
+    const m = /^https:\/\/trello\.com\/c\/([^/]+)/.exec(at.url);
     return m && m[1];
   }
 }
