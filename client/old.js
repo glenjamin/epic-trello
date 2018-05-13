@@ -4,10 +4,11 @@ import "jquery/src/attributes";
 import "jquery/src/manipulation";
 window.jQuery = $;
 
-import scriptjs from "scriptjs";
+import load from "little-loader";
 const apiKey = window.globalSettings.trelloApiKey;
 const trelloScriptUrl = `https://api.trello.com/1/client.js?key=${apiKey}`;
-scriptjs(trelloScriptUrl, () => {
+load(trelloScriptUrl, err => {
+  if (err) throw err;
   init();
 });
 
