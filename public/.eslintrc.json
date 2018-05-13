@@ -1,9 +1,0 @@
-{
-  "env": {
-    "jquery": true,
-    "browser": true
-  },
-  "globals": {
-    "Trello": true
-  }
-}

@@ -1,4 +1,15 @@
-init();
+import $ from "jquery/src/core";
+import "jquery/src/ajax/xhr";
+import "jquery/src/attributes";
+import "jquery/src/manipulation";
+window.jQuery = $;
+
+import scriptjs from "scriptjs";
+const apiKey = window.globalSettings.trelloApiKey;
+const trelloScriptUrl = `https://api.trello.com/1/client.js?key=${apiKey}`;
+scriptjs(trelloScriptUrl, () => {
+  init();
+});
 
 function displayError(message) {
   alert(message);

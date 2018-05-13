@@ -49,9 +49,7 @@ if (!config.prod) {
 // Static Assets
 Object.entries({
   "bootstrap.min.css": "bootstrap/dist/css/",
-  "bootstrap.min.css.map": "bootstrap/dist/css/",
-  "jquery.min.js": "jquery/dist/",
-  "jquery.min.map": "jquery/dist/"
+  "bootstrap.min.css.map": "bootstrap/dist/css/"
 }).map(([file, source]) => {
   const fullSource = require.resolve(source + file);
   app.get("/" + file, (req, res) => res.sendFile(fullSource));
