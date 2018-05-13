@@ -23,6 +23,7 @@
     "express-handlebars": "^3.0.0"
   },
   "devDependencies": {
+    "@glenjamin/webpack-hot-client-overlay": "^1.0.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.7.0",
