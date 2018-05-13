@@ -1,0 +1,12 @@
+{
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "browser": true
+  },
+  "extends": ["plugin:react/recommended"]
+}

@@ -19,6 +19,33 @@ app.set("trust proxy", 1);
 app.engine("handlebars", expressHandlebars({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+if (!config.prod) {
+  const hotClient = require("webpack-hot-client");
+  const devMiddleware = require("webpack-dev-middleware");
+  const webpack = require("webpack");
+  const webpackConfig = require("./webpack.config");
+
+  const compiler = webpack(webpackConfig);
+  const { publicPath } = webpackConfig.output;
+
+  compiler.hooks.done.tap("timer", stats =>
+    log(
+      stats.toString({
+        hash: true,
+        timings: true,
+        assets: false,
+        version: false,
+        modules: false,
+        builtAt: false,
+        entrypoints: false,
+        colors: true
+      })
+    )
+  );
+  hotClient(compiler, { reload: false });
+  app.use(devMiddleware(compiler, { publicPath, logLevel: "warn" }));
+}
+
 // Static Assets
 Object.entries({
   "bootstrap.min.css": "bootstrap/dist/css/",
@@ -29,6 +56,7 @@ Object.entries({
   const fullSource = require.resolve(source + file);
   app.get("/" + file, (req, res) => res.sendFile(fullSource));
 });
+app.use("/", express.static("dist"));
 app.use("/", express.static("public"));
 
 // The app code
@@ -53,6 +81,10 @@ app.use((err, req, res, next) => {
 
 const server = http.createServer(app);
 server.listen(config.port, () => {
-  // eslint-disable-next-line no-console
-  console.log("Listening on http://localhost:%d", config.port);
+  log("Listening on http://localhost:%d", config.port);
 });
+
+function log(...args) {
+  // eslint-disable-next-line no-console
+  console.log(...args);
+}
