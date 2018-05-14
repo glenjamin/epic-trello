@@ -1,4 +1,5 @@
 const mode = process.env.NODE_ENV || "development";
+const dev = mode === "development";
 
 const path = p => require("path").resolve(__dirname, p);
 
@@ -7,8 +8,10 @@ module.exports = {
   context: __dirname,
   entry: [
     "./client",
-    mode === "development" && "@glenjamin/webpack-hot-client-overlay"
+    // error handling overlay in dev mode
+    dev && "@glenjamin/webpack-hot-client-overlay"
   ].filter(Boolean),
+  devtool: dev ? "cheap-module-eval-source-map" : "source-map",
   output: {
     publicPath: "/",
     path: path("./dist"),
