@@ -1,15 +1,12 @@
 {
-  "parserOptions": {
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
+  "extends": ["plugin:react/recommended"],
   "env": {
     "browser": true
   },
-  "globals": {
-    "Trello": true
+  "parserOptions": {
+    "sourceType": "module"
   },
-  "extends": ["plugin:react/recommended"]
+  "rules": {
+    "react/prop-types": "off"
+  }
 }
