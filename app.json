@@ -1,0 +1,27 @@
+{
+  "name": "epic-trello",
+  "description": "",
+  "scripts": {
+  },
+  "env": {
+    "NODE_ENV": {
+      "required": true
+    },
+    "TRELLO_API_KEY": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
