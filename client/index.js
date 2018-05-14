@@ -5,7 +5,7 @@ import ReactDOM from "react-dom";
 
 class App extends React.Component {
   state = {
-    connected: false,
+    stage: "loading",
     error: null
   };
   error(err) {
@@ -16,18 +16,24 @@ class App extends React.Component {
   componentDidCatch(err) {
     this.error(err);
   }
+  componentDidMount() {
+    trello
+      .prepare()
+      .then(() => this.setState({ stage: "ready" }), err => this.error(err));
+  }
   render() {
-    const { connected, error } = this.state;
+    const { stage, error } = this.state;
     return (
       <React.Fragment>
         {error && <p className="alert alert-danger">{error}</p>}
-        {!connected && (
+        {stage == "loading" && <Loading />}
+        {stage == "ready" && (
           <Connect
-            onConnect={() => this.setState({ connected: true })}
+            onConnect={() => this.setState({ stage: "connected" })}
             onError={err => this.error(err)}
           />
         )}
-        {connected && <Viewer onError={err => this.error(err)} />}
+        {stage == "connected" && <Viewer onError={err => this.error(err)} />}
       </React.Fragment>
     );
   }

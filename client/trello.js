@@ -15,43 +15,47 @@ const authorizeOptions = {
   expiration: "never"
 };
 
+let Trello;
+export function prepare() {
+  if (Trello) return true;
+  return new Promise((resolve, reject) => {
+    load(trelloScriptUrl, err => {
+      if (err) return reject(err);
+
+      Trello = window.Trello;
+      return resolve();
+    });
+  });
+}
+
 export function authorize() {
-  return loadTrello().then(
-    Trello =>
-      new Promise((resolve, reject) => {
-        Trello.authorize(
-          Object.assign(
-            {
-              success: resolve,
-              error: reject
-            },
-            authorizeOptions
-          )
-        );
-      })
-  );
+  return new Promise((resolve, reject) => {
+    Trello.authorize(
+      Object.assign(
+        {
+          success: resolve,
+          error: reject
+        },
+        authorizeOptions
+      )
+    );
+  });
 }
 
 export function getBoards() {
-  return loadTrello().then(
-    Trello =>
-      new Promise((resolve, reject) =>
-        Trello.members.get("me/boards", {}, resolve, reject)
-      )
+  return new Promise((resolve, reject) =>
+    Trello.members.get("me/boards", {}, resolve, reject)
   );
 }
 
 export function getCards(boardId) {
-  return loadTrello().then(
-    Trello =>
-      new Promise((resolve, reject) =>
-        Trello.boards.get(
-          `${boardId}/cards`,
-          { attachments: true },
-          resolve,
-          reject
-        )
-      )
+  return new Promise((resolve, reject) =>
+    Trello.boards.get(
+      `${boardId}/cards`,
+      { attachments: true },
+      resolve,
+      reject
+    )
   );
 }
 
@@ -65,35 +69,17 @@ export function getSubcards(card) {
 }
 
 export function getSubcard(cardId) {
-  return loadTrello().then(
-    Trello =>
-      new Promise((resolve, reject) => {
-        Trello.cards.get(
-          cardId,
-          {
-            fields: ["url", "name", "pos", "closed"],
-            list: true,
-            list_fields: ["name", "pos"]
-          },
-          resolve,
-          reject
-        );
-      })
-  );
-}
-
-let Trello;
-function loadTrello() {
-  if (Trello) {
-    return Promise.resolve(Trello);
-  }
   return new Promise((resolve, reject) => {
-    load(trelloScriptUrl, err => {
-      if (err) return reject(err);
-
-      Trello = window.Trello;
-      return resolve(window.Trello);
-    });
+    Trello.cards.get(
+      cardId,
+      {
+        fields: ["url", "name", "pos", "closed"],
+        list: true,
+        list_fields: ["name", "pos"]
+      },
+      resolve,
+      reject
+    );
   });
 }
 
