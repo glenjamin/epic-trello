@@ -59,37 +59,12 @@ export function getCards(boardId) {
   );
 }
 
-export function getUnplannedCards(boardId) {
-  return new Promise((resolve, reject) =>
-    Trello.boards.get(
-      `${boardId}/cards/all`,
-      {
-        fields: [
-          "url",
-          "name",
-          "closed",
-          "labels",
-          "idList",
-          "dateLastActivity"
-        ]
-      },
-      resolve,
-      reject
-    )
-  ).then(cards =>
-    cards
-      .map(lastActivityToDate)
-      .filter(isUnplanned)
-      .sort(sortByLastActivity)
-  );
-}
-
 export function getSubcards(card) {
   return Promise.all(
     unique(card.attachments.map(attachmentToCardId).filter(Boolean)).map(
       getSubcard
     )
-  ).then(cards => cards.sort(sortByListPos));
+  ).then(cards => cards.sort(cardSort));
 }
 
 export function getSubcard(cardId) {
@@ -116,20 +91,7 @@ function attachmentToCardId(at) {
   return m && m[1];
 }
 
-function lastActivityToDate(card) {
-  card.lastActivity = new Date(card.dateLastActivity);
-  delete card.dateLastActivity;
-  return card;
-}
-function isUnplanned(card) {
-  return card.labels.some(label => label.name == "Unplanned");
-}
-
-function sortByLastActivity(a, b) {
-  return b.lastActivity - a.lastActivity;
-}
-
-function sortByListPos(a, b) {
+function cardSort(a, b) {
   if (a.list.id === b.list.id) {
     return a.pos - b.pos;
   }

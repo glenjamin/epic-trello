@@ -5,7 +5,6 @@ import ReactDOM from "react-dom";
 
 import Loading from "./Loading";
 import Board from "./Board";
-import Unplanned from "./Unplanned";
 
 class App extends React.Component {
   state = {
@@ -80,14 +79,7 @@ class Viewer extends React.Component {
               onError={this.props.onError}
             />
           )}
-        {boardId &&
-          mode == "unplanned" && (
-            <Unplanned
-              key={boardId}
-              boardId={boardId}
-              onError={this.props.onError}
-            />
-          )}
+        {boardId && mode == "unplanned" && <p>Unplanned</p>}
       </React.Fragment>
     );
   }
